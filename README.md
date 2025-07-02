@@ -123,51 +123,18 @@ An enterprise-grade meeting scheduler powered by advanced AI voice recognition, 
 
 ---
 
-## 🎭 **Live Demo & Screenshots**
-
-<div align="center">
-
-### 📱 **Multi-Device Experience**
-
-<table>
-<tr>
-<td align="center">
-<h4>🖥️ Desktop Dashboard</h4>
-<kbd><img src="https://via.placeholder.com/400x250/6366f1/ffffff?text=Professional+Dashboard" alt="Desktop View" width="100%"/></kbd>
-</td>
-<td align="center">
-<h4>📊 Analytics View</h4>
-<kbd><img src="https://via.placeholder.com/400x250/10b981/ffffff?text=Advanced+Analytics" alt="Analytics" width="100%"/></kbd>
-</td>
-</tr>
-<tr>
-<td align="center">
-<h4>🎙️ Voice Recognition</h4>
-<kbd><img src="https://via.placeholder.com/400x250/8b5cf6/ffffff?text=Voice+Commands" alt="Voice Interface" width="100%"/></kbd>
-</td>
-<td align="center">
-<h4>📅 Calendar View</h4>
-<kbd><img src="https://via.placeholder.com/400x250/f59e0b/ffffff?text=Interactive+Calendar" alt="Calendar" width="100%"/></kbd>
-</td>
-</tr>
-</table>
-
-</div>
-
----
-
 ## 🏆 **Developer Profile**
 
 <div align="center">
 
-<img src="https://avatars.githubusercontent.com/u/placeholder?v=4" width="100" height="100" style="border-radius: 50%; border: 3px solid #6366f1;">
+<img src="https://lh3.googleusercontent.com/a/ACg8ocIbY99KK84QEd9Mbkc1SmmXDrAGKKS9I8FS1zIajzTZuua-OYxw=s192-c-rg-br100" width="100" height="100" style="border-radius: 50%; border: 3px solid #6366f1;">
 
 ### **Naila Shehzadi**
 *Full Stack Developer & AI Enthusiast*
 
 [![Email](https://img.shields.io/badge/Email-nailashehzadi396%40gmail.com-red?style=for-the-badge&logo=gmail)](mailto:nailashehzadi396@gmail.com)
-[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/nailashehzadi)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/nailashehzadi)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-black?style=for-the-badge&logo=github)](https://github.com/Nailashehzadi01)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/naila-shehzadi-10g/)
 
 *"Building the future of AI-powered productivity tools"*
 
@@ -244,7 +211,7 @@ An enterprise-grade meeting scheduler powered by advanced AI voice recognition, 
 #### 🎯 **Quick Commands**
 ```bash
 # Clone & Start
-git clone https://github.com/nailashehzadi/voiceschedule-pro.git
+git clone https://github.com/Nailashehzadi01/Voice-Meeting-Scheduler.git
 cd voiceschedule-pro
 npm install && npm run dev
 ```
@@ -263,7 +230,7 @@ npm install && npm run dev
 <summary><strong>📥 1. Clone Repository</strong></summary>
 
 ```bash
-git clone https://github.com/nailashehzadi/voiceschedule-pro.git
+git clone https://github.com/Nailashehzadi01/Voice-Meeting-Scheduler.git
 cd voiceschedule-pro
 ```
 
@@ -309,19 +276,7 @@ npm run dev
 
 ---
 
-### 🌐 **Browser Compatibility**
 
-<div align="center">
-
-![Chrome](https://img.shields.io/badge/Chrome-80+-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)
-![Edge](https://img.shields.io/badge/Edge-80+-0078D4?style=for-the-badge&logo=microsoftedge&logoColor=white)
-![Firefox](https://img.shields.io/badge/Firefox-75+-FF7139?style=for-the-badge&logo=firefox&logoColor=white)
-![Safari](https://img.shields.io/badge/Safari-14+-000000?style=for-the-badge&logo=safari&logoColor=white)
-
-**🎤 Voice Recognition:** Chrome & Edge (WebKit browsers)  
-**📱 Mobile Support:** iOS Safari 14+, Android Chrome 80+
-
-</div>
 
 ## 📁 **Project Architecture**
 
@@ -644,65 +599,9 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-## 📊 **GitHub Stats**
 
 <div align="center">
 
-[![GitHub stars](https://img.shields.io/github/stars/nailashehzadi/voiceschedule-pro?style=social)](https://github.com/nailashehzadi/voiceschedule-pro/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/nailashehzadi/voiceschedule-pro?style=social)](https://github.com/nailashehzadi/voiceschedule-pro/network)
-[![GitHub issues](https://img.shields.io/github/issues/nailashehzadi/voiceschedule-pro)](https://github.com/nailashehzadi/voiceschedule-pro/issues)
-[![GitHub license](https://img.shields.io/github/license/nailashehzadi/voiceschedule-pro)](https://github.com/nailashehzadi/voiceschedule-pro/blob/main/LICENSE)
-
-</div>
-
----
-
-## 🏆 **Recognition**
-
-<div align="center">
-
-### 🌟 **Project Achievements**
-
-![AI Powered](https://img.shields.io/badge/🎤_AI_Powered-Voice_Recognition-purple?style=for-the-badge)
-![Professional](https://img.shields.io/badge/💼_Enterprise-Ready_UI-blue?style=for-the-badge)
-![Analytics](https://img.shields.io/badge/📊_Advanced-Analytics-green?style=for-the-badge)
-![Responsive](https://img.shields.io/badge/📱_Fully-Responsive-orange?style=for-the-badge)
-
-</div>
-
----
-
-## 📄 **License**
-
-<div align="center">
-
-**MIT License** - Open Source & Free to Use
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
-
-*Feel free to use, modify, and distribute this project*
-
-</div>
-
----
-
-<div align="center">
-
-## 💎 **VoiceSchedule Pro**
-### *Revolutionizing Meeting Management with AI*
-
-<img src="https://img.shields.io/badge/Made_with-❤️-red?style=for-the-badge">
-<img src="https://img.shields.io/badge/Built_by-Naila_Shehzadi-blue?style=for-the-badge">
-
----
-
-### 🚀 **Ready to Transform Your Productivity?**
-
-[![Get Started](https://img.shields.io/badge/🎯_Get_Started-Now-success?style=for-the-badge&logo=rocket)](https://github.com/nailashehzadi/voiceschedule-pro)
-[![Live Demo](https://img.shields.io/badge/🎮_Live_Demo-Try_Now-info?style=for-the-badge&logo=play)](http://localhost:8080)
-[![Documentation](https://img.shields.io/badge/📖_Full_Docs-Read_More-warning?style=for-the-badge&logo=book)](https://github.com/nailashehzadi/voiceschedule-pro#readme)
-
----
 
 *"The future of meeting management is here - and it speaks your language"*
 
