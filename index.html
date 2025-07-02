@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceSchedule Pro - AI-Powered Meeting Scheduler</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-microphone-alt"></i>
+                <span>VoiceSchedule Pro</span>
+            </div>
+            <div class="loading-spinner"></div>
+            <p>Initializing AI Voice Recognition...</p>
+        </div>
+    </div>
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+        <button class="mobile-menu-btn" onclick="toggleMobileSidebar()">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="mobile-logo">
+            <i class="fas fa-microphone-alt"></i>
+            <span>VoiceSchedule Pro</span>
+        </div>
+        <button class="mobile-voice-btn" onclick="startQuickVoice()">
+            <i class="fas fa-microphone"></i>
+        </button>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-microphone-alt"></i>
+                <span>VoiceSchedule Pro</span>
+            </div>
+            <button class="close-sidebar-btn" onclick="closeMobileSidebar()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link active" data-section="dashboard">
+                <i class="fas fa-chart-pie"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="sidebar-link" data-section="schedule">
+                <i class="fas fa-plus-circle"></i>
+                <span>Schedule Meeting</span>
+            </a>
+            <a href="#" class="sidebar-link" data-section="meetings">
+                <i class="fas fa-calendar-check"></i>
+                <span>My Meetings</span>
+            </a>
+            <a href="#" class="sidebar-link" data-section="calendar">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Calendar View</span>
+            </a>
+            <a href="#" class="sidebar-link" data-section="analytics">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#" class="sidebar-link" data-section="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="voice-quick-access">
+                <button class="voice-quick-btn" onclick="startQuickVoice()">
+                    <i class="fas fa-microphone"></i>
+                    <span>Quick Voice</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1 class="page-title" id="pageTitle">Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <button class="voice-btn" id="voiceBtn" title="Voice Command">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="notification-btn" onclick="toggleNotificationPanel()" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationBadge">3</span>
+                </button>
+                <div class="user-menu">
+                    <button class="user-btn" onclick="toggleUserMenu()">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <div class="user-name">Naila Shehzadi</div>
+                                <div class="user-email">nailashehzadi396@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" onclick="app.switchSection('settings')"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" onclick="exportData()"><i class="fas fa-download"></i> Export Data</a>
+                        <a href="#" onclick="clearAllData()"><i class="fas fa-trash"></i> Clear Data</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section class="content-section active" id="dashboard-section">
+            <div class="dashboard-grid">
+                <div class="stats-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="totalMeetings">0</h3>
+                        <p>Total Meetings</p>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="upcomingMeetings">0</h3>
+                        <p>Upcoming</p>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="voiceCommands">0</h3>
+                        <p>Voice Commands</p>
+                    </div>
+                </div>
+                
+                <div class="stats-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-calendar-day"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3 id="todayMeetings">0</h3>
+                        <p>Today</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="dashboard-left">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-clock"></i> Upcoming Meetings</h3>
+                            <button class="view-all-btn" onclick="switchSection('meetings')">View All</button>
+                        </div>
+                        <div class="card-content" id="upcomingMeetingsList">
+                            <div class="no-data">
+                                <i class="fas fa-calendar-plus"></i>
+                                <p>No upcoming meetings</p>
+                                <button class="btn btn-primary" onclick="switchSection('schedule')">Schedule Meeting</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-brain"></i> AI Insights</h3>
+                        </div>
+                        <div class="card-content" id="aiInsights">
+                            <div class="insight-item">
+                                <i class="fas fa-lightbulb"></i>
+                                <p>Your most productive meeting time is 10:00 AM</p>
+                            </div>
+                            <div class="insight-item">
+                                <i class="fas fa-chart-trending-up"></i>
+                                <p>You've scheduled 23% more meetings this month</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-right">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-line"></i> Weekly Overview</h3>
+                        </div>
+                        <div class="card-content">
+                            <canvas id="weeklyChart" width="400" height="200"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-history"></i> Recent Activity</h3>
+                        </div>
+                        <div class="card-content" id="recentActivity">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-microphone"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p><strong>Voice command processed</strong></p>
+                                    <span class="activity-time">2 minutes ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Schedule Meeting Section -->
+        <section class="content-section" id="schedule-section">
+            <div class="section-header">
+                <h2>Schedule New Meeting</h2>
+                <div class="section-actions">
+                    <button class="btn btn-secondary" onclick="loadTemplate()">
+                        <i class="fas fa-file-alt"></i> Load Template
+                    </button>
+                    <button class="btn btn-secondary" onclick="saveDraft()">
+                        <i class="fas fa-save"></i> Save Draft
+                    </button>
+                    <button class="btn btn-voice" onclick="showVoiceModal()">
+                        <i class="fas fa-microphone"></i> Voice Input
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <form id="meetingForm" class="meeting-form">
+                    <div class="form-tabs">
+                        <button type="button" class="tab-btn active" data-tab="basic">
+                            <i class="fas fa-info-circle"></i> Basic Info
+                        </button>
+                        <button type="button" class="tab-btn" data-tab="advanced">
+                            <i class="fas fa-cogs"></i> Advanced
+                        </button>
+                        <button type="button" class="tab-btn" data-tab="recurring">
+                            <i class="fas fa-sync-alt"></i> Recurring
+                        </button>
+                    </div>
+
+                    <!-- Basic Info Tab -->
+                    <div class="tab-content active" id="basic-tab">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="meetingTitle">
+                                    <i class="fas fa-heading"></i> Meeting Title
+                                </label>
+                                <input type="text" id="meetingTitle" name="meetingTitle" required 
+                                       placeholder="Enter meeting title (auto-generated from description)">
+                                <div class="ai-suggestion" id="titleSuggestion"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="meetingDate">
+                                    <i class="fas fa-calendar"></i> Date
+                                </label>
+                                <input type="date" id="meetingDate" name="meetingDate" required>
+                                <div class="quick-date-buttons">
+                                    <button type="button" class="quick-btn" onclick="setQuickDate('today')">Today</button>
+                                    <button type="button" class="quick-btn" onclick="setQuickDate('tomorrow')">Tomorrow</button>
+                                    <button type="button" class="quick-btn" onclick="setQuickDate('nextWeek')">Next Week</button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="meetingTime">
+                                    <i class="fas fa-clock"></i> Time
+                                </label>
+                                <input type="time" id="meetingTime" name="meetingTime" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="meetingDuration">
+                                    <i class="fas fa-hourglass-half"></i> Duration
+                                </label>
+                                <select id="meetingDuration" name="meetingDuration">
+                                    <option value="15">15 minutes</option>
+                                    <option value="30" selected>30 minutes</option>
+                                    <option value="45">45 minutes</option>
+                                    <option value="60">1 hour</option>
+                                    <option value="90">1.5 hours</option>
+                                    <option value="120">2 hours</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                                <input type="number" id="customDuration" class="custom-duration" 
+                                       placeholder="Minutes" style="display: none;">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="meetingType">
+                                    <i class="fas fa-video"></i> Meeting Type
+                                </label>
+                                <select id="meetingType" name="meetingType">
+                                    <option value="in-person">In-Person</option>
+                                    <option value="video-call">Video Call</option>
+                                    <option value="phone-call">Phone Call</option>
+                                    <option value="hybrid">Hybrid</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="meetingDescription">
+                                <i class="fas fa-align-left"></i> Description
+                            </label>
+                            <textarea id="meetingDescription" name="meetingDescription" rows="4" 
+                                      placeholder="Enter meeting description (typing here will auto-generate title if empty)"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="meetingLocation">
+                                <i class="fas fa-map-marker-alt"></i> Location / Meeting Link
+                            </label>
+                            <input type="text" id="meetingLocation" name="meetingLocation" 
+                                   placeholder="Enter location or meeting link">
+                        </div>
+                    </div>
+
+                    <!-- Advanced Tab -->
+                    <div class="tab-content" id="advanced-tab">
+                        <div class="form-group">
+                            <label for="meetingAttendees">
+                                <i class="fas fa-users"></i> Attendees
+                            </label>
+                            <input type="text" id="meetingAttendees" name="meetingAttendees" 
+                                   placeholder="Enter email addresses separated by commas">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="meetingPriority">
+                                    <i class="fas fa-exclamation-triangle"></i> Priority
+                                </label>
+                                <select id="meetingPriority" name="meetingPriority">
+                                    <option value="low">Low</option>
+                                    <option value="medium" selected>Medium</option>
+                                    <option value="high">High</option>
+                                    <option value="urgent">Urgent</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="meetingCategory">
+                                    <i class="fas fa-tag"></i> Category
+                                </label>
+                                <select id="meetingCategory" name="meetingCategory">
+                                    <option value="work">Work</option>
+                                    <option value="personal">Personal</option>
+                                    <option value="client">Client</option>
+                                    <option value="team">Team</option>
+                                    <option value="training">Training</option>
+                                    <option value="review">Review</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="meetingNotes">
+                                <i class="fas fa-sticky-note"></i> Preparation Notes
+                            </label>
+                            <textarea id="meetingNotes" name="meetingNotes" rows="3" 
+                                      placeholder="Notes for meeting preparation"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="sendReminder" name="sendReminder" checked>
+                                <span class="checkmark"></span>
+                                Send reminder notifications
+                            </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="addToCalendar" name="addToCalendar" checked>
+                                <span class="checkmark"></span>
+                                Add to calendar automatically
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Recurring Tab -->
+                    <div class="tab-content" id="recurring-tab">
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="isRecurring" name="isRecurring" onchange="toggleRecurringOptions(this.checked)">
+                                <span class="checkmark"></span>
+                                Make this a recurring meeting
+                            </label>
+                        </div>
+
+                        <div class="recurring-options" id="recurringOptions" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="recurringFreq">
+                                        <i class="fas fa-sync-alt"></i> Frequency
+                                    </label>
+                                    <select id="recurringFreq" name="recurringFreq">
+                                        <option value="daily">Daily</option>
+                                        <option value="weekly" selected>Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="yearly">Yearly</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="recurringEnd">
+                                        <i class="fas fa-calendar-times"></i> End Date
+                                    </label>
+                                    <input type="date" id="recurringEnd" name="recurringEnd">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="recurringCount">
+                                    <i class="fas fa-hashtag"></i> Number of Occurrences
+                                </label>
+                                <input type="number" id="recurringCount" name="recurringCount" 
+                                       min="1" max="100" placeholder="Optional">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="clearForm()">
+                            <i class="fas fa-times"></i> Clear
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="saveDraft()">
+                            <i class="fas fa-save"></i> Save Draft
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-calendar-plus"></i> Schedule Meeting
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Meetings Section -->
+        <section class="content-section" id="meetings-section">
+            <div class="section-header">
+                <h2>My Meetings</h2>
+                <div class="section-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchMeetings" placeholder="Search meetings...">
+                    </div>
+                    <button class="btn btn-secondary" onclick="refreshMeetings()">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportMeetings()">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+            </div>
+
+            <div class="meetings-controls">
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="upcoming">Upcoming</button>
+                    <button class="filter-btn" data-filter="today">Today</button>
+                    <button class="filter-btn" data-filter="this-week">This Week</button>
+                    <button class="filter-btn" data-filter="past">Past</button>
+                </div>
+                
+                <div class="view-controls">
+                    <div class="sort-dropdown">
+                        <select id="sortMeetings" onchange="sortMeetings(this.value)">
+                            <option value="date-desc">Date (Newest First)</option>
+                            <option value="date-asc">Date (Oldest First)</option>
+                            <option value="title-asc">Title (A-Z)</option>
+                            <option value="title-desc">Title (Z-A)</option>
+                            <option value="priority">Priority</option>
+                        </select>
+                    </div>
+                    
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="list" onclick="changeView('list')">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <button class="view-btn" data-view="grid" onclick="changeView('grid')">
+                            <i class="fas fa-th"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="meetings-container" id="meetingsContainer">
+                <div class="no-data">
+                    <i class="fas fa-calendar-plus"></i>
+                    <h3>No meetings found</h3>
+                    <p>Start by scheduling your first meeting</p>
+                    <button class="btn btn-primary" onclick="switchSection('schedule')">
+                        <i class="fas fa-plus"></i> Schedule Meeting
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calendar Section -->
+        <section class="content-section" id="calendar-section">
+            <div class="section-header">
+                <h2>Calendar View</h2>
+                <div class="section-actions">
+                    <button class="btn btn-secondary" onclick="changeMonth(-1)">
+                        <i class="fas fa-chevron-left"></i> Previous
+                    </button>
+                    <button class="btn btn-secondary" onclick="changeMonth(1)">
+                        Next <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="btn btn-primary" onclick="importCalendar()">
+                        <i class="fas fa-upload"></i> Import Calendar
+                    </button>
+                </div>
+            </div>
+
+            <div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <h3 id="calendarMonthYear"></h3>
+                </div>
+                
+                <div class="calendar-container">
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section class="content-section" id="analytics-section">
+            <div class="section-header">
+                <h2>Analytics & Reports</h2>
+                <div class="section-actions">
+                    <button class="btn btn-secondary" onclick="generateReport()">
+                        <i class="fas fa-file-pdf"></i> Generate Report
+                    </button>
+                    <button class="btn btn-secondary" onclick="exportData()">
+                        <i class="fas fa-download"></i> Export Data
+                    </button>
+                </div>
+            </div>
+
+            <div class="analytics-grid">
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-bar"></i> Meeting Frequency</h3>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="frequencyChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-pie-chart"></i> Meeting Types</h3>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="typesChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-clock"></i> Peak Hours</h3>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="hoursChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <div class="analytics-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-microphone"></i> Voice Command Usage</h3>
+                    </div>
+                    <div class="card-content">
+                        <canvas id="voiceChart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insights-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-lightbulb"></i> AI-Generated Insights</h3>
+                    </div>
+                    <div class="card-content" id="analyticsInsights">
+                        <!-- Insights will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Settings Section -->
+        <section class="content-section" id="settings-section">
+            <div class="section-header">
+                <h2>Settings</h2>
+                <div class="section-actions">
+                    <button class="btn btn-secondary" onclick="loadSettings()">
+                        <i class="fas fa-sync"></i> Reset to Default
+                    </button>
+                    <button class="btn btn-primary" onclick="saveSettings()">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                </div>
+            </div>
+
+            <div class="settings-container">
+                <div class="settings-nav">
+                    <button class="settings-nav-btn active" data-panel="voice">
+                        <i class="fas fa-microphone"></i> Voice Settings
+                    </button>
+                    <button class="settings-nav-btn" data-panel="notifications">
+                        <i class="fas fa-bell"></i> Notifications
+                    </button>
+                    <button class="settings-nav-btn" data-panel="appearance">
+                        <i class="fas fa-palette"></i> Appearance
+                    </button>
+                    <button class="settings-nav-btn" data-panel="calendar">
+                        <i class="fas fa-calendar"></i> Calendar
+                    </button>
+                    <button class="settings-nav-btn" data-panel="advanced">
+                        <i class="fas fa-cogs"></i> Advanced
+                    </button>
+                    <button class="settings-nav-btn" data-panel="data">
+                        <i class="fas fa-database"></i> Data Management
+                    </button>
+                </div>
+
+                <div class="settings-content">
+                    <!-- Voice Settings Panel -->
+                    <div class="settings-panel active" id="voice-panel">
+                        <h3>Voice Recognition Settings</h3>
+                        
+                        <div class="setting-group">
+                            <label for="voiceLanguage">
+                                <i class="fas fa-language"></i> Language
+                            </label>
+                            <select id="voiceLanguage">
+                                <option value="en-US">English (US)</option>
+                                <option value="en-GB">English (UK)</option>
+                                <option value="es-ES">Spanish</option>
+                                <option value="fr-FR">French</option>
+                                <option value="de-DE">German</option>
+                                <option value="it-IT">Italian</option>
+                                <option value="pt-BR">Portuguese (Brazil)</option>
+                                <option value="zh-CN">Chinese (Simplified)</option>
+                                <option value="ja-JP">Japanese</option>
+                                <option value="ko-KR">Korean</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group">
+                            <label for="voiceSensitivity">
+                                <i class="fas fa-sliders-h"></i> Sensitivity Level
+                                <span class="sensitivity-value" id="sensitivityValue">75%</span>
+                            </label>
+                            <input type="range" id="voiceSensitivity" min="0" max="100" value="75" 
+                                   oninput="handleDurationChange(this.value)">
+                            <div class="range-labels">
+                                <span>Low</span>
+                                <span>High</span>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="autoProcessVoice" checked>
+                                <span class="checkmark"></span>
+                                Auto-process voice commands
+                            </label>
+                            <p class="setting-description">Automatically process recognized speech without confirmation</p>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="voiceConfirmation" checked>
+                                <span class="checkmark"></span>
+                                Voice confirmation feedback
+                            </label>
+                            <p class="setting-description">Provide audio feedback when commands are processed</p>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="continuousListening">
+                                <span class="checkmark"></span>
+                                Continuous listening mode
+                            </label>
+                            <p class="setting-description">Keep voice recognition active in the background</p>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Panel -->
+                    <div class="settings-panel" id="notifications-panel">
+                        <h3>Notification Preferences</h3>
+                        
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="emailNotifications" checked>
+                                <span class="checkmark"></span>
+                                Email notifications
+                            </label>
+                            <p class="setting-description">Receive meeting reminders via email</p>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="pushNotifications" checked>
+                                <span class="checkmark"></span>
+                                Push notifications
+                            </label>
+                            <p class="setting-description">Receive browser push notifications</p>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="reminderNotifications" checked>
+                                <span class="checkmark"></span>
+                                Meeting reminders
+                            </label>
+                            <p class="setting-description">Get reminded before meetings start</p>
+                        </div>
+
+                        <div class="setting-group">
+                            <label for="reminderTime">
+                                <i class="fas fa-clock"></i> Reminder time (minutes before)
+                            </label>
+                            <select id="reminderTime">
+                                <option value="5">5 minutes</option>
+                                <option value="10" selected>10 minutes</option>
+                                <option value="15">15 minutes</option>
+                                <option value="30">30 minutes</option>
+                                <option value="60">1 hour</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="soundNotifications">
+                                <span class="checkmark"></span>
+                                Sound notifications
+                            </label>
+                            <p class="setting-description">Play notification sounds</p>
+                        </div>
+                    </div>
+
+                    <!-- Appearance Panel -->
+                    <div class="settings-panel" id="appearance-panel">
+                        <h3>Appearance & Theme</h3>
+                        
+                        <div class="setting-group">
+                            <label for="theme">
+                                <i class="fas fa-palette"></i> Theme
+                            </label>
+                            <select id="theme">
+                                <option value="light">Light</option>
+                                <option value="dark">Dark</option>
+                                <option value="auto">Auto (System)</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="compactMode">
+                                <span class="checkmark"></span>
+                                Compact mode
+                            </label>
+                            <p class="setting-description">Reduce spacing and show more content</p>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="animations" checked>
+                                <span class="checkmark"></span>
+                                Enable animations
+                            </label>
+                            <p class="setting-description">Show smooth transitions and effects</p>
+                        </div>
+
+                        <div class="setting-group">
+                            <label for="fontSize">
+                                <i class="fas fa-text-height"></i> Font size
+                            </label>
+                            <select id="fontSize">
+                                <option value="small">Small</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="large">Large</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Calendar Panel -->
+                    <div class="settings-panel" id="calendar-panel">
+                        <h3>Calendar Integration</h3>
+                        
+                        <div class="setting-group">
+                            <label for="defaultView">
+                                <i class="fas fa-calendar-alt"></i> Default calendar view
+                            </label>
+                            <select id="defaultView">
+                                <option value="month" selected>Month</option>
+                                <option value="week">Week</option>
+                                <option value="day">Day</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group">
+                            <label for="weekStart">
+                                <i class="fas fa-calendar-week"></i> Week starts on
+                            </label>
+                            <select id="weekStart">
+                                <option value="0">Sunday</option>
+                                <option value="1" selected>Monday</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="showWeekends" checked>
+                                <span class="checkmark"></span>
+                                Show weekends
+                            </label>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="autoSyncCalendar">
+                                <span class="checkmark"></span>
+                                Auto-sync with external calendars
+                            </label>
+                            <p class="setting-description">Automatically import meetings from other calendar apps</p>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Panel -->
+                    <div class="settings-panel" id="advanced-panel">
+                        <h3>Advanced Settings</h3>
+                        
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="enableAnalytics" checked>
+                                <span class="checkmark"></span>
+                                Enable analytics
+                            </label>
+                            <p class="setting-description">Collect usage data for insights and improvements</p>
+                        </div>
+
+                        <div class="setting-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="debugMode">
+                                <span class="checkmark"></span>
+                                Debug mode
+                            </label>
+                            <p class="setting-description">Enable detailed logging for troubleshooting</p>
+                        </div>
+
+                        <div class="setting-group">
+                            <label for="autoBackup">
+                                <i class="fas fa-cloud-upload-alt"></i> Auto-backup frequency
+                            </label>
+                            <select id="autoBackup">
+                                <option value="never">Never</option>
+                                <option value="daily">Daily</option>
+                                <option value="weekly" selected>Weekly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+
+                        <div class="setting-group">
+                            <label for="maxMeetings">
+                                <i class="fas fa-hashtag"></i> Maximum meetings to display
+                            </label>
+                            <input type="number" id="maxMeetings" value="100" min="10" max="1000">
+                        </div>
+                    </div>
+
+                    <!-- Data Management Panel -->
+                    <div class="settings-panel" id="data-panel">
+                        <h3>Data Management</h3>
+                        
+                        <div class="setting-group">
+                            <h4>Export Data</h4>
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary" onclick="exportMeetings()">
+                                    <i class="fas fa-calendar-alt"></i> Export Meetings
+                                </button>
+                                <button class="btn btn-secondary" onclick="exportSettings()">
+                                    <i class="fas fa-cog"></i> Export Settings
+                                </button>
+                                <button class="btn btn-secondary" onclick="exportData()">
+                                    <i class="fas fa-download"></i> Export All Data
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="setting-group">
+                            <h4>Import Data</h4>
+                            <div class="action-buttons">
+                                <button class="btn btn-secondary" onclick="importCalendar()">
+                                    <i class="fas fa-upload"></i> Import Calendar
+                                </button>
+                                <input type="file" id="importFile" accept=".json,.csv" style="display: none;" onchange="importData(this)">
+                                <button class="btn btn-secondary" onclick="document.getElementById('importFile').click()">
+                                    <i class="fas fa-file-import"></i> Import Data File
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="setting-group danger-zone">
+                            <h4>Danger Zone</h4>
+                            <div class="action-buttons">
+                                <button class="btn btn-danger" onclick="clearAllData()">
+                                    <i class="fas fa-trash"></i> Clear All Data
+                                </button>
+                            </div>
+                            <p class="setting-description">This action cannot be undone. All meetings and settings will be permanently deleted.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Voice Modal -->
+    <div class="modal" id="voiceModal">
+        <div class="modal-content voice-modal">
+            <div class="modal-header">
+                <h3>Voice Command</h3>
+                <button class="close-btn" onclick="closeVoiceModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="voice-interface">
+                <div class="voice-visualizer">
+                    <div class="voice-circle" id="voiceCircle">
+                        <i class="fas fa-microphone"></i>
+                        <div class="wave"></div>
+                        <div class="wave"></div>
+                        <div class="wave"></div>
+                    </div>
+                </div>
+                
+                <div class="voice-status">
+                    <h4 id="voiceStatus">Click to start voice command</h4>
+                    <div class="confidence-meter" id="confidenceMeter">
+                        <div class="confidence-bar" id="confidenceBar"></div>
+                    </div>
+                </div>
+                
+                <div class="voice-transcription">
+                    <p id="voiceTranscription">Say something like "Schedule meeting with team tomorrow at 10 AM"</p>
+                </div>
+                
+                <div class="voice-actions">
+                    <button class="btn btn-primary" id="startVoice" onclick="startVoiceRecognition()">
+                        <i class="fas fa-microphone"></i> Start Listening
+                    </button>
+                    <button class="btn btn-secondary" onclick="closeVoiceModal()">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+                
+                <div class="voice-suggestions">
+                    <h5>Try saying:</h5>
+                    <div class="suggestion-chips">
+                        <div class="chip" onclick="processChipClick(this.textContent)">
+                            "Schedule meeting with team tomorrow at 10 AM"
+                        </div>
+                        <div class="chip" onclick="processChipClick(this.textContent)">
+                            "Book call with John on Friday at 2 PM"
+                        </div>
+                        <div class="chip" onclick="processChipClick(this.textContent)">
+                            "Create weekly standup every Monday at 9 AM"
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notificationPanel">
+        <div class="notification-header">
+            <h3>Notifications</h3>
+            <button class="close-btn" onclick="closeNotificationPanel()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="notification-content" id="notificationContent">
+            <!-- Notifications will be populated by JavaScript -->
+        </div>
+        
+        <div class="notification-footer">
+            <button class="btn btn-sm btn-secondary" onclick="markAllRead()">
+                Mark All Read
+            </button>
+            <button class="btn btn-sm btn-secondary" onclick="clearNotifications()">
+                Clear All
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
